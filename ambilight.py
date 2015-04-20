@@ -20,24 +20,20 @@ b.connect()
 # Get the bridge state (This returns the full dictionary that you can explore)
 b.get_api()
 
-
 lights = b.lights
 
 # Print light names
 for l in lights:
     print(l.name)
 
-
 light_names = b.get_light_objects('name')
 
 television_pulling_url = 'http://' + television_ip + ':1925/1/ambilight/processed'
-
 
 def change_color_light(color, light):
 	h, l, s = colorsys.rgb_to_hls(color['r'] / 255.0, color['g'] / 255.0, color['b'] / 255.0)
 	command = {'transitiontime' : 3, 'hue' : int(math.floor(h * 65536.0)), 'sat' : int(s * 255.0), 'bri' : int(l * 255)}
 	b.set_light(light, command)
-#	print('Setting ' + light + ' from (' + str(color['r']) + '/' + str(color['g']) + '/' + str(color['b']) + ') to ' + str(h * 360.0) + 'h ' + str(int(s * 100.0)) + '% ' + str(int(l * 100)) + '%')	
 
 while True:	
 	response = requests.get(url=television_pulling_url)
